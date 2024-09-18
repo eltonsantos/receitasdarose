@@ -48,8 +48,6 @@ gem "bootsnap", require: false
 gem "image_processing", "~> 1.2"
 
 gem 'devise'
-gem 'simple_form'
-gem 'simple_form-tailwind'
 gem 'kaminari'
 gem 'ransack'
 gem 'lucide-rails'
