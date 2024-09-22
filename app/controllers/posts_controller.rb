@@ -36,6 +36,17 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
+    @post = Post.find(params[:id])
+    if @post.update(post_params.reject { |k| k["images"] })
+      if post_params["images"]
+        post_params["images"].each do |image|
+          @post.images.attach(image)
+        end
+      end
+      redirect_to posts_path, notice: "Post was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: "Post was successfully updated." }
@@ -65,6 +76,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:title, :description, :active, :category_id, :user_id)
+      params.require(:post).permit(:title, :description, :active, :category_id, :user_id, images: [])
     end
 end
